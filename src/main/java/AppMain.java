@@ -9,20 +9,18 @@ import java.io.IOException;
 
 public class AppMain {
 
+    public static void main(String[] args){
 
-public static void main(String[] args){
-
-    try {
-        Document doc=Jsoup.connect("https://www.jiosaavn.com/featured/weekly-top-songs").get();
-        Elements elements = doc.select("ol.track-list");
-        Elements elem = elements.select("div.song-json");
-        for (Element element : elem) {
-            JsonElement json = JsonParser.parseString(element.text());
-            System.out.println(json.getAsJsonObject().get("title"));
+        try {
+            Document doc=Jsoup.connect("https://www.jiosaavn.com/featured/weekly-top-songs").get();
+            Elements elements = doc.select("div.song-json");
+            elements.forEach((element)->{
+                JsonElement json = JsonParser.parseString(element.text());
+                System.out.println(json.getAsJsonObject().get("title"));
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    } catch (IOException e) {
-        e.printStackTrace();
     }
-}
 
 }
